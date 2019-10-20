@@ -1,0 +1,23 @@
+@font-face {
+  font-family: "Font-regular";
+  src: url("../fonts/font-regular.woff") format("woff");
+}
+
+@import '~bootstrap/scss/bootstrap-reboot.scss';
+@import '~bootstrap/scss/bootstrap-grid.scss';
+@import '~bootstrap/scss/_utilities.scss';
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  h1 {
+    font-family: 'Font-regular';
+    margin-top: 20px;
+    text-transform: uppercase;
+    text-align: center;
+  }
+}
