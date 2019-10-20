@@ -2,8 +2,10 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HTMLInlineCSSWebpackPlugin = require('html-inline-css-webpack-plugin').default;
-
-const path = require('path');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const PurifyCSSPlugin = require('purifycss-webpack')
+const path = require('path')
+const glob = require('glob-all')
 
 module.exports = {
   mode: 'development',
@@ -23,18 +25,14 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'public'),
   },
-
   optimization: {
-    splitChunks: {
-      cacheGroups: {
-        styles: {
-          name: 'markup',
-          test: /\.html$/,
-          chunks: 'all',
-          enforce: true,
-        },
-      },
-    },
+    minimizer: [
+      new OptimizeCSSAssetsPlugin({
+        cssProcessorPluginOptions: {
+          preset: ['default', { discardComments: { removeAll: true } }],
+        }
+      })
+    ],
   },
 
   plugins: [
@@ -55,7 +53,20 @@ module.exports = {
       filename: 'index.html',
       minify: {
         collapseWhitespace: true,
+        removeComments: true,
       },
+    }),
+
+    new PurifyCSSPlugin({
+      paths: glob.sync([
+        path.join(__dirname, 'src/*.html'),
+        path.join(__dirname, 'src/scss/*.scss'),
+        path.join(__dirname, 'src/*.js')
+      ]),
+      minimize: true,
+      purifyOptions: {
+        whitelist: []
+      }
     }),
 
     new HTMLInlineCSSWebpackPlugin(),
