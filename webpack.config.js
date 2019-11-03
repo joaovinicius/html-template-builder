@@ -1,11 +1,12 @@
+
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HTMLInlineCSSWebpackPlugin = require('html-inline-css-webpack-plugin').default;
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const PurifyCSSPlugin = require('purifycss-webpack')
-const path = require('path')
-const glob = require('glob-all')
+const PurifyCSSPlugin = require('purifycss-webpack');
+const path = require('path');
+const glob = require('glob-all');
 
 module.exports = {
   mode: 'development',
@@ -30,8 +31,8 @@ module.exports = {
       new OptimizeCSSAssetsPlugin({
         cssProcessorPluginOptions: {
           preset: ['default', { discardComments: { removeAll: true } }],
-        }
-      })
+        },
+      }),
     ],
   },
 
@@ -61,12 +62,12 @@ module.exports = {
       paths: glob.sync([
         path.join(__dirname, 'src/*.html'),
         path.join(__dirname, 'src/scss/*.scss'),
-        path.join(__dirname, 'src/*.js')
+        path.join(__dirname, 'src/*.js'),
       ]),
       minimize: true,
       purifyOptions: {
-        whitelist: []
-      }
+        whitelist: [],
+      },
     }),
 
     new HTMLInlineCSSWebpackPlugin(),
